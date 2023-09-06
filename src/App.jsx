@@ -1,14 +1,30 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Profile from "./pages/Profile";
-import Header from "./components/Header";
+import ProtectedRoute from "./routes/ProtectedRoutes";
+import Layout from "./layouts/Layout";
+import { protectedRoutes, publicRoutes } from "./routes";
+
 function App() {
   return (
     <BrowserRouter>
-      <Header />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route element={<ProtectedRoute shouldAuth={true} />}>
+          <Route element={<Layout />}>
+            {protectedRoutes.map((route) => (
+              <Route
+                key={route.key}
+                path={route.path}
+                element={route.element}
+              />
+            ))}
+          </Route>
+        </Route>
+        <Route element={<ProtectedRoute shouldAuth={false} />}>
+          {publicRoutes.map((route) => (
+            <Route key={route.key} path={route.path} element={route.element} />
+          ))}
+        </Route>
+
+        <Route path="/*" element={<h1>Not found 404</h1>} />
       </Routes>
     </BrowserRouter>
   );
