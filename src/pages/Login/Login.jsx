@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthorizationLayout from "../../layouts/AuthorizationLayout";
 import { Form, Input } from "antd";
 import AuthButton from "../../components/AuthButton";
@@ -6,19 +6,21 @@ import loginApi from "./api";
 import { useDispatch } from "react-redux";
 import { getUserInfo } from "../../redux/reducers/userSlice";
 function Login() {
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
   const onFinish = async (values) => {
+    setError("");
     try {
       const res = await loginApi.login(values);
       localStorage.setItem("token", res.token);
       localStorage.setItem("username", values.username);
       dispatch(getUserInfo());
     } catch (error) {
-      console.log(error);
+      setError(error?.response?.data?.details);
     }
   };
   const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+    setError("");
   };
   return (
     <AuthorizationLayout login={true}>
@@ -72,6 +74,7 @@ function Login() {
           <AuthButton text={"Log in"} />
         </Form.Item>
       </Form>
+      {error && <p className="text-red-500">{error}</p>}
     </AuthorizationLayout>
   );
 }
