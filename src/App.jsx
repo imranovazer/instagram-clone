@@ -1,16 +1,16 @@
-import { useState } from "react";
-import { AiOutlineInstagram } from "react-icons/ai";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Profile from "./pages/Profile";
+import Header from "./components/Header";
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div className="container mx-auto  px-6">
-      <h1 className="text-3xl font-bold flex gap-3 items-center  text-red-500">
-        <span>Hello Instagram</span>
-        <AiOutlineInstagram />
-      </h1>
-    </div>
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-
 export default App;
