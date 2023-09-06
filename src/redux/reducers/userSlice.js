@@ -38,7 +38,7 @@ export const userSlice = createSlice({
             state.loading = false
         },
         [getUserInfo.rejected]: (state) => {
-            //localStorage.clear();
+            localStorage.clear();
             state.isAuth = false
             state.user = null
             state.loading = false
