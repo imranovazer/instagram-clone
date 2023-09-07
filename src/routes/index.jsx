@@ -1,7 +1,7 @@
 import HomePage from "../pages/Home";
 import Login from "../pages/Login/Login";
 import ProfilePage from "../pages/Profile";
-import Register from "../pages/Register";
+import Register from "../pages/Register/Register";
 
 export const publicRoutes = [
   {
