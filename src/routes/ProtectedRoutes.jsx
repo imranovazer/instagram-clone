@@ -10,7 +10,6 @@ function ProtectedRoute({ shouldAuth }) {
   useEffect(() => {
     setLoading(false);
   }, []);
-  // Assuming you have a variable called 'isAuth' that determines if the user is authenticated or not
   if (loading) {
     return <Loading />;
   } else {

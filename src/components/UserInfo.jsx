@@ -1,8 +1,7 @@
 import { useState } from "react";
 import ShortUserInfo from "./ShortUserInfo";
 
-export default function UserInfo({ username }) {
-  username = "averine.mclean";
+export default function UserInfo({ userName }) {
   const [isUsernameHovered, setIsUsernameHovered] = useState(false);
 
   const handleUsernameMouseEnter = () => {
@@ -19,7 +18,7 @@ export default function UserInfo({ username }) {
 
   return (
     <div
-      className="flex flex-row items-center cursor-pointer w-[150px] h-[50px] mb-2"
+      className="flex flex-row items-center cursor-pointer w-[150px] h-[50px] mb-2 z-50"
       onMouseEnter={handleUsernameMouseEnter}
       onMouseLeave={handleUsernameMouseLeave}
     >
@@ -31,9 +30,9 @@ export default function UserInfo({ username }) {
         />
       </div>
       <div className="flex flex-col ml-2">
-        <div className="text-base">{username}</div>
+        <div className="text-base">{userName}</div>
       </div>
-      {isUsernameHovered && <ShortUserInfo />}
+      {isUsernameHovered && <ShortUserInfo userName={userName} />}
     </div>
   );
 }
