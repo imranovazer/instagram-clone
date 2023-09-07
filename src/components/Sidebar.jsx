@@ -1,27 +1,29 @@
+import { useSelector } from "react-redux";
 import UserInfo from "./UserInfo";
 
 function Sidebar() {
+  const userData = useSelector((state) => state?.userData?.data);
+  const userName = useSelector((state) => state?.userData?.data?.username);
+  const userSubscriptions = useSelector(
+    (state) => state?.userData?.data?.subscriptions
+  );
+
   return (
     <div className="fixed right-[280px] mt-1 p-2 ">
-      <UserInfo />
-      <div className="w-[300px] h-[200px] overflow-y-auto mt-4 border-2 border-gray-200 rounded-md p-3">
+      <UserInfo userName={userName} />
+      <div className="w-[300px] h-[300px]  overflow-y-auto mt-4 border-2 border-gray-200 rounded-md p-3">
         <div className="mb-2">Following</div>
-        <UserInfo />
-        <UserInfo />
-        <UserInfo />
-        <UserInfo />
-        <UserInfo />
-        <UserInfo />
-        <UserInfo />
-        <UserInfo />
-        <UserInfo />
+        {userSubscriptions &&
+          userSubscriptions.map((user, index) => (
+            <UserInfo key={index} userName={user.username} />
+          ))}
       </div>
-      <div className="w-[300px] mt-4 border-2 border-gray-200 rounded-md p-3">
+      {/* <div className="w-[300px] mt-4 border-2 border-gray-200 rounded-md p-3">
         <div className="mb-2">Suggestions</div>
         <UserInfo />
         <UserInfo />
         <UserInfo />
-      </div>
+      </div> */}
     </div>
   );
 }
