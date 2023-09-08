@@ -4,7 +4,7 @@ export default function ShortUserInfo({ userName }) {
   const userData = useSelector((state) => state.userData.data);
 
   return (
-    <div className="absolute flex z-99 ">
+    <div className="absolute flex z-10">
       <div className=" mt-[300px] ml-[35px] flex flex-col bg-white rounded-md w-[350px] h-[300px] pl-5  pr-5  pt-2  pb-5 ">
         <img
           src="../../src/assets/profile.jpg"
