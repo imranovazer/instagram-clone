@@ -5,6 +5,22 @@
     <link rel="icon" type="image/svg+xml" href="./public/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Instagram</title>
+    <style>
+      @keyframes fly-away {
+        0% {
+          opacity: 1;
+          transform: translate(0, 0);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(100%, -100%);
+        }
+      }
+
+      .animate-fly-away {
+        animation: fly-away 3s ease-in-out;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

@@ -53,22 +53,23 @@ export default function SinglePost({
     if (!liked) {
       dispatch(addLike(postData.postId));
     }
-    // setLikesCount(likesCount + 1);
+    setLikesCount(likesCount + 1);
   };
 
   const decrementLikes = () => {
     if (liked) {
       dispatch(removeLike(postData.postId));
+      setLiked(false);
     }
 
-    // setLikesCount(likesCount - 1);
+    setLikesCount(likesCount - 1);
   };
 
   const handleDoubleClick = () => {
     if (!liked) {
-      // setLiked(true);
+      setLiked(true);
       setIsDoubleClick(true);
-      // setLikesCount(likesCount + 1);
+      setLikesCount(likesCount + 1);
       dispatch(addLike(postData.postId));
     }
   };
