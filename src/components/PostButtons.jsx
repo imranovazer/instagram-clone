@@ -1,17 +1,10 @@
-import { useState } from "react";
 import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { LiaCommentAlt } from "react-icons/lia";
 import { BsSend } from "react-icons/bs";
 
-export default function PostButtons() {
-  const [liked, setLiked] = useState(false);
-
-  const toggleLiked = () => {
-    setLiked(!liked);
-  };
-
+export default function PostButtons({ liked, toggleLiked }) {
   return (
-    <>
+    <div className="flex ">
       <button className="text-2xl mr-2" onClick={toggleLiked}>
         {liked ? <IoMdHeart style={{ color: "red" }} /> : <IoMdHeartEmpty />}
       </button>
@@ -21,6 +14,6 @@ export default function PostButtons() {
       <button className="text-lg p-2">
         <BsSend />
       </button>
-    </>
+    </div>
   );
 }
