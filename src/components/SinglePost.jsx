@@ -4,12 +4,32 @@ import UserPostText from "./UserPostText";
 import LikePost from "./PostButtons";
 import { IoMdHeart } from "react-icons/io";
 import { LiaCommentAlt } from "react-icons/lia";
+import { addLike, removeLike } from "../redux/reducers/postLikesSlice";
+import { useDispatch } from "react-redux";
 
+export default function SinglePost({
+  isProfilePage,
+  postData,
+  isFollowingPage,
+}) {
+  const dispatch = useDispatch();
+
+  const isLikedByAlexBird = postData.likes.some(
+    (like) => like.authorUsername === "alexbird"
+  );
+
+<<<<<<< HEAD
 export default function SinglePost({ isProfilePage, postData }) {
   const [isHover, setIsHover] = useState(false);
   const [likesCount, setLikesCount] = useState(postData.likes.length);
   const [isDoubleClick, setIsDoubleClick] = useState(false);
   const [liked, setLiked] = useState(false);
+=======
+  const [isHover, setIsHover] = useState(false);
+  const [likesCount, setLikesCount] = useState(postData?.likes?.length);
+  const [isDoubleClick, setIsDoubleClick] = useState(false);
+  const [liked, setLiked] = useState(isLikedByAlexBird);
+>>>>>>> new-components
 
   useEffect(() => {
     let timer;
@@ -26,30 +46,60 @@ export default function SinglePost({ isProfilePage, postData }) {
   }, [isDoubleClick]);
 
   const handleMouseOver = () => {
-    if (isProfilePage) {
+    if (isProfilePage || isFollowingPage) {
       setIsHover(true);
     }
   };
 
   const handleMouseOut = () => {
-    if (isProfilePage) {
+    if (isProfilePage || isFollowingPage) {
       setIsHover(false);
     }
   };
 
   const incrementLikes = () => {
+<<<<<<< HEAD
     setLikesCount(likesCount + 1);
   };
 
   const decrementLikes = () => {
     setLikesCount(likesCount - 1);
+=======
+    if (!liked) {
+      dispatch(addLike(postData.postId));
+    }
+    // setLikesCount(likesCount + 1);
+  };
+
+  const decrementLikes = () => {
+    if (liked) {
+      dispatch(removeLike(postData.postId));
+    }
+
+    // setLikesCount(likesCount - 1);
+>>>>>>> new-components
   };
 
   const handleDoubleClick = () => {
     if (!liked) {
+<<<<<<< HEAD
       setLiked(true);
       setIsDoubleClick(true);
       setLikesCount(likesCount + 1);
+=======
+      // setLiked(true);
+      setIsDoubleClick(true);
+      // setLikesCount(likesCount + 1);
+      dispatch(addLike(postData.postId));
+    }
+  };
+
+  const toggleLiked = () => {
+    if (liked) {
+      decrementLikes();
+    } else {
+      incrementLikes();
+>>>>>>> new-components
     }
   };
 
@@ -57,19 +107,33 @@ export default function SinglePost({ isProfilePage, postData }) {
     <div className="flex flex-col">
       <div
         className={` ${
+<<<<<<< HEAD
           isProfilePage
+=======
+          isFollowingPage || isProfilePage
+>>>>>>> new-components
             ? "w-[320px] h-[320px] relative cursor-pointer"
             : "flex flex-col w-[500px] mb-1 mx-5 px-5 rounded-lg "
         }`}
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
       >
+<<<<<<< HEAD
         {!isProfilePage && <UserInfo userName={postData.authorUsername} />}
+=======
+        {!(isProfilePage || isFollowingPage) && (
+          <UserInfo userName={postData.authorUsername} />
+        )}
+>>>>>>> new-components
         <div className=" relative w-[100%] h-[100%]">
           <img
             onDoubleClick={handleDoubleClick}
             className="object-cover w-full h-full"
+<<<<<<< HEAD
             src={postData.imageUrl}
+=======
+            src={postData?.imageUrl}
+>>>>>>> new-components
             alt="Post Image"
           />
 
@@ -83,7 +147,11 @@ export default function SinglePost({ isProfilePage, postData }) {
         {isHover && (
           <div className="w-[100%] h-[100%] bg-black opacity-50  flex items-center justify-center gap-3 text-2xl text-white absolute top-0 left-0">
             <div className="flex flex-row items-center justify-center gap-2 ">
+<<<<<<< HEAD
               <IoMdHeart /> <span>{postData?.likes?.length}</span>
+=======
+              <IoMdHeart /> <span>{likesCount}</span>
+>>>>>>> new-components
             </div>
             <div className="flex fill flex-row items-center justify-center gap-2">
               <LiaCommentAlt />
@@ -92,6 +160,7 @@ export default function SinglePost({ isProfilePage, postData }) {
           </div>
         )}
 
+<<<<<<< HEAD
         {!isProfilePage && (
           <div className="flex flex-row items-center ">
             <div className="flex flex-col">
@@ -101,6 +170,15 @@ export default function SinglePost({ isProfilePage, postData }) {
                 decrementLikes={decrementLikes}
                 liked={liked}
                 setLiked={setLiked}
+=======
+        {!(isProfilePage || isFollowingPage) && (
+          <div className="flex flex-row items-center ">
+            <div className="flex flex-col">
+              <LikePost
+                liked={liked}
+                setLiked={setLiked}
+                toggleLiked={toggleLiked}
+>>>>>>> new-components
               />
               <div className="flex font-bold	">
                 <span className="mr-1 ">{likesCount}</span>
@@ -113,7 +191,11 @@ export default function SinglePost({ isProfilePage, postData }) {
           </div>
         )}
 
+<<<<<<< HEAD
         {!isProfilePage && <UserPostText /> && (
+=======
+        {!(isProfilePage || isFollowingPage) && <UserPostText /> && (
+>>>>>>> new-components
           <div className="flex flex-col ">
             <span className="text-slate-500	text-sm	mt-1">
               View all: {postData?.comments?.length} comments

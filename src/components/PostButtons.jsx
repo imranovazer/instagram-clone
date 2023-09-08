@@ -2,6 +2,7 @@ import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { LiaCommentAlt } from "react-icons/lia";
 import { BsSend } from "react-icons/bs";
 
+<<<<<<< HEAD
 export default function PostButtons({
   incrementLikes,
   decrementLikes,
@@ -17,6 +18,9 @@ export default function PostButtons({
     }
   };
 
+=======
+export default function PostButtons({ liked, toggleLiked }) {
+>>>>>>> new-components
   return (
     <div className="flex ">
       <button className="text-2xl mr-2" onClick={toggleLiked}>

@@ -1,6 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 
+<<<<<<< HEAD
 export default function UserProfileDetails() {
+=======
+export default function UserProfileDetails({
+  isFollowingPage,
+  firstName,
+  lastName,
+  userName,
+  postsLength,
+}) {
+>>>>>>> new-components
   const userData = useSelector((state) => state.userData.data);
   const dispatch = useDispatch();
 
@@ -20,7 +30,13 @@ export default function UserProfileDetails() {
         </div>
         <div className="infos-container">
           <div className="flex flex-row items-center">
+<<<<<<< HEAD
             <div className="m-1 text-2xl">{userData.username}</div>
+=======
+            <div className="m-1 text-2xl">
+              {isFollowingPage ? `${userName}` : `${userData.username}`}
+            </div>
+>>>>>>> new-components
             <div className="m-4">
               <button className="m-1 bg-slate-100 rounded-lg	p-1 w-[100px]">
                 Follow
@@ -33,6 +49,7 @@ export default function UserProfileDetails() {
           </div>
           <div className="flex flex-row items-center ">
             <div className="m-2">
+<<<<<<< HEAD
               <span className="font-bold mr-1">{userData?.posts?.length}</span>
               <span>Posts</span>
             </div>
@@ -63,8 +80,52 @@ export default function UserProfileDetails() {
                 {userData?.subscriptions[1]?.username}
               </span>{" "}
               and {userData?.subscriptions?.length - 2} others
+=======
+              <span className="font-bold mr-1">
+                {isFollowingPage
+                  ? `${postsLength}`
+                  : `${userData?.posts?.length}`}
+              </span>
+              <span>Posts</span>
+            </div>
+            {!isFollowingPage && (
+              <div className="m-2">
+                <span className="font-bold mr-1">
+                  {userData?.subscribers?.length}
+                </span>
+                <span>Followers</span>
+              </div>
+            )}
+            {!isFollowingPage && (
+              <div className="m-2">
+                <span className="font-bold mr-1">
+                  {" "}
+                  {userData?.subscriptions?.length}
+                </span>
+                <span>Following</span>
+              </div>
+            )}
+          </div>
+          <div className="ml-2 mt-2 flex items-center">
+            <span className="font-bold	">
+              {isFollowingPage
+                ? `${firstName} ${lastName}`
+                : `${userData.firstName} ${userData.lastName}`}
+>>>>>>> new-components
             </span>
           </div>
+          {!isFollowingPage && (
+            <div className="ml-2 mt-2 flex items-center">
+              <span>
+                Followed by{" "}
+                <span className="font-bold">
+                  {userData?.subscriptions[0]?.username},{" "}
+                  {userData?.subscriptions[1]?.username}
+                </span>{" "}
+                and {userData?.subscriptions?.length - 2} others
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </div>
