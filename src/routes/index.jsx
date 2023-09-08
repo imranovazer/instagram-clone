@@ -2,6 +2,10 @@ import HomePage from "../pages/Home";
 import Login from "../pages/Login/Login";
 import ProfilePage from "../pages/Profile";
 import Register from "../pages/Register/Register";
+<<<<<<< HEAD
+=======
+import FollowingProfile from "../pages/FollowingProfile";
+>>>>>>> new-pages
 
 export const publicRoutes = [
   {
@@ -26,4 +30,12 @@ export const protectedRoutes = [
     path: "/profile",
     element: <ProfilePage />,
   },
+<<<<<<< HEAD
+=======
+  {
+    key: 3,
+    path: "/following/:username",
+    element: <FollowingProfile />,
+  },
+>>>>>>> new-pages
 ];
