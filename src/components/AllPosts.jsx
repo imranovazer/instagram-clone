@@ -3,7 +3,7 @@ import { LiaUserTagSolid } from "react-icons/lia";
 import { useDispatch, useSelector } from "react-redux";
 import SinglePost from "./SinglePost";
 
-function AllPosts({ isProfilePage }) {
+function AllPosts({ isProfilePage, isFollowingPage, followingUserPosts }) {
   const userData = useSelector((state) => state.userData.data);
   const dispatch = useDispatch();
 
@@ -35,12 +35,22 @@ function AllPosts({ isProfilePage }) {
 
         {userPostData &&
           !isProfilePage &&
+          !isFollowingPage &&
           homeFeed?.map((post, index) => (
             <SinglePost
               key={index}
               isProfilePage={isProfilePage}
               postData={post}
               homeFeed={homeFeed}
+            />
+          ))}
+        {followingUserPosts &&
+          isFollowingPage &&
+          followingUserPosts?.map((post, index) => (
+            <SinglePost
+              key={index}
+              isFollowingPage={isFollowingPage}
+              postData={post}
             />
           ))}
       </div>
