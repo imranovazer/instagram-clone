@@ -6,12 +6,17 @@ import { IoMdHeart } from "react-icons/io";
 import { LiaCommentAlt } from "react-icons/lia";
 import { addLike, removeLike } from "../redux/reducers/postLikesSlice";
 import { useDispatch } from "react-redux";
+import Loading from "./Loading";
 
 export default function SinglePost({
   isProfilePage,
   postData,
   isFollowingPage,
 }) {
+  if (!postData) {
+    return <Loading />;
+  }
+
   const dispatch = useDispatch();
 
   const isLikedByAlexBird = postData.likes.some(
