@@ -9,13 +9,8 @@ function Sidebar() {
   );
 
   return (
-<<<<<<< HEAD
-    <div className="fixed right-[280px] mt-1 p-2 ">
-      <UserInfo userName={userName} />
-=======
     <div className="fixed right-[280px] mt-1 p-2">
       <UserInfo userName={userName} isYourProfile={true} />
->>>>>>> new-components
       <div className="w-[300px] h-[300px]  overflow-y-auto mt-4 border-2 border-gray-200 rounded-md p-3">
         <div className="mb-2">Following</div>
         {userSubscriptions &&
