@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ShortUserInfo from "./ShortUserInfo";
 import { Link } from "react-router-dom";
 
 export default function UserInfo({ userName, isYourProfile }) {
   const [isUsernameHovered, setIsUsernameHovered] = useState(false);
+  const [randomImage, setRandomImage] = useState("");
 
   const handleUsernameMouseEnter = () => {
     setTimeout(() => {
@@ -17,6 +18,26 @@ export default function UserInfo({ userName, isYourProfile }) {
     }, 0);
   };
 
+  useEffect(() => {
+    async function getRandomHumanProfile() {
+      try {
+        const response = await fetch("https://randomuser.me/api/");
+        if (response.ok) {
+          const data = await response.json();
+          const randomUser = data.results[0];
+          setRandomImage(randomUser.picture.large);
+        } else {
+          throw new Error("Failed to fetch random user profile");
+        }
+      } catch (error) {
+        console.error(error);
+        setRandomImage("default-image-url.jpg");
+      }
+    }
+
+    getRandomHumanProfile();
+  }, []);
+
   return (
     <Link to={isYourProfile ? `${"/profile"}` : `${`/following/${userName}`}`}>
       <div
@@ -26,8 +47,8 @@ export default function UserInfo({ userName, isYourProfile }) {
       >
         <div className="">
           <img
-            src="../../src/assets/profile.jpg"
-            className="rounded-full mt-4 mb-4 h-9 w-9 "
+            src={randomImage}
+            className="rounded-full mt-4 mb-4 h-9 w-9"
             alt=""
           />
         </div>
