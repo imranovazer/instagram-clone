@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
+import Loading from "./Loading";
 
 export default function UserProfileDetails({
   isFollowingPage,
@@ -11,7 +12,7 @@ export default function UserProfileDetails({
   const dispatch = useDispatch();
 
   if (!userData) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (

@@ -2,6 +2,7 @@ import { BsGrid3X3 } from "react-icons/bs";
 import { LiaUserTagSolid } from "react-icons/lia";
 import { useDispatch, useSelector } from "react-redux";
 import SinglePost from "./SinglePost";
+import Loading from "./Loading";
 
 function AllPosts({ isProfilePage, isFollowingPage, followingUserPosts }) {
   const userData = useSelector((state) => state.userData.data);
@@ -11,7 +12,7 @@ function AllPosts({ isProfilePage, isFollowingPage, followingUserPosts }) {
   const homeFeed = useSelector((state) => state?.homeFeed?.data);
 
   if (!userPostData) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   return (
     <div className="container mx-auto w-[70vw] items-center justify-between  pb-6">
