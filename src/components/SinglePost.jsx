@@ -57,6 +57,7 @@ export default function SinglePost({
   const incrementLikes = () => {
     if (!liked) {
       dispatch(addLike(postData.postId));
+      setLiked(true);
     }
     setLikesCount(likesCount + 1);
   };
