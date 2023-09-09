@@ -59,6 +59,7 @@ export default function SinglePost({
       dispatch(addLike(postData.postId));
     }
     setLikesCount(likesCount + 1);
+    setLiked(true);
   };
 
   const decrementLikes = () => {
