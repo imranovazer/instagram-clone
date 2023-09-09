@@ -101,10 +101,10 @@ export default function SinglePost({
         {!(isProfilePage || isFollowingPage) && (
           <UserInfo userName={postData.authorUsername} />
         )}
-        <div className=" relative w-[100%] h-[100%]">
+        <div className=" relative w-[100%] h-[100%] mt-2 mb-1">
           <img
             onDoubleClick={handleDoubleClick}
-            className="object-cover w-full h-full"
+            className="object-cover w-full h-full border border-slate-100 rounded-md"
             src={postData?.imageUrl}
             alt="Post Image"
           />

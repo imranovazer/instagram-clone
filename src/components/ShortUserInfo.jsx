@@ -1,21 +1,17 @@
 import { useSelector } from "react-redux";
+import UserProfileDetails from "./UserProfileDetails";
 
-export default function ShortUserInfo({ userName }) {
-  const userData = useSelector((state) => state.userData.data);
+export default function ShortUserInfo() {
+  const homeFeed = useSelector((state) => state?.homeFeed?.data);
 
+  console.log("homeFeed:", homeFeed);
   return (
-    <div className="absolute flex z-10">
-      <div className=" mt-[300px] ml-[35px] flex flex-col bg-white rounded-md w-[350px] h-[300px] pl-5  pr-5  pt-2  pb-5 ">
-        <img
-          src="../../src/assets/profile.jpg"
-          className="rounded-full mt-4 mb-4 h-16 w-16"
-          alt=""
-        />
-        <div className="text-base">
-          <span>username</span>
+    <div className="absolute flex flex-col z-10 items-center justify-center">
+      <div className=" mt-[70px] ml-[20px] flex flex-col bg-white rounded-md w-[390px] h-[230px] z-10 border border-slate-200">
+        <UserProfileDetails hover={true} />
+        <div className="self-center font-bold mt-3">
+          <span>Click to go to the Profile!</span>
         </div>
-        <div className=" text-sm text-gray-500">{userName}</div>
-        <div className="w-[300px] h-[200px] rounded-md bg-gray-300  mt-5 self-center"></div>
       </div>
     </div>
   );

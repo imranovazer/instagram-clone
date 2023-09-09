@@ -7,15 +7,11 @@ export default function UserInfo({ userName, isYourProfile }) {
   const [randomImage, setRandomImage] = useState("");
 
   const handleUsernameMouseEnter = () => {
-    setTimeout(() => {
-      setIsUsernameHovered(true);
-    }, 0);
+    setIsUsernameHovered(true);
   };
 
   const handleUsernameMouseLeave = () => {
-    setTimeout(() => {
-      setIsUsernameHovered(false);
-    }, 0);
+    setIsUsernameHovered(false);
   };
 
   useEffect(() => {
@@ -27,7 +23,7 @@ export default function UserInfo({ userName, isYourProfile }) {
           const randomUser = data.results[0];
           setRandomImage(randomUser.picture.large);
         } else {
-          throw new Error("Failed to fetch random user profile");
+          throw new Error("Failed to fetch a random user profile");
         }
       } catch (error) {
         console.error(error);
@@ -39,23 +35,31 @@ export default function UserInfo({ userName, isYourProfile }) {
   }, []);
 
   return (
-    <Link to={isYourProfile ? `${"/profile"}` : `${`/following/${userName}`}`}>
-      <div
-        className="flex flex-row items-center cursor-pointer w-[150px] h-[50px] mb-2 z-50"
-        onMouseEnter={handleUsernameMouseEnter}
-        onMouseLeave={handleUsernameMouseLeave}
-      >
-        <div className="">
+    <Link
+      to={isYourProfile ? "/profile" : `/following/${userName}`}
+      onMouseEnter={handleUsernameMouseEnter}
+      onMouseLeave={handleUsernameMouseLeave}
+    >
+      <div className="relative w-[150px] h-[50px] flex items-center cursor-pointer">
+        <div>
           <img
             src={randomImage}
-            className="rounded-full mt-4 mb-4 h-9 w-9"
+            className={`rounded-full h-9 w-9 transition-all duration-300 ${
+              isUsernameHovered
+                ? "opacity-70 scale-105 hover:opacity-100 hover:scale-100"
+                : "opacity-100 scale-100 hover:opacity-70 hover:scale-105"
+            }`}
             alt=""
           />
         </div>
         <div className="flex flex-col ml-2">
           <div className="text-base">{userName}</div>
         </div>
-        {isUsernameHovered && <ShortUserInfo userName={userName} />}
+        {isUsernameHovered && (
+          <div className="opacity-0 scale-95 absolute top-0 left-0 z-10 transition-all duration-300 hover:opacity-100 hover:scale-100">
+            <ShortUserInfo userName={userName} />
+          </div>
+        )}
       </div>
     </Link>
   );
