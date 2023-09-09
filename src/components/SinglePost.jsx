@@ -117,7 +117,7 @@ export default function SinglePost({
         </div>
 
         {isHover && (
-          <div className="w-[100%] h-[100%] bg-black opacity-50  flex items-center justify-center gap-3 text-2xl text-white absolute top-0 left-0">
+          <div className="w-[100%] h-[100%] rounded-md mt-2 mb-1 bg-black opacity-50 flex items-center justify-center gap-3 text-2xl text-white absolute top-0 left-0">
             <div className="flex flex-row items-center justify-center gap-2 ">
               <IoMdHeart /> <span>{likesCount}</span>
             </div>
