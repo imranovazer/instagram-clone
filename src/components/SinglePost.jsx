@@ -102,6 +102,7 @@ export default function SinglePost({
       >
         {!(isProfilePage || isFollowingPage) && (
           <UserInfo userName={postData.authorUsername} />
+          //Commit
         )}
         <div className=" relative w-[100%] h-[100%] mt-2 mb-1">
           <img
