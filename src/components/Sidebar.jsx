@@ -1,7 +1,6 @@
 import { useSelector } from "react-redux";
 import UserInfo from "./UserInfo";
-
-function Sidebar() {
+function Sidebar({ isMyProfile }) {
   const userName = useSelector((state) => state?.userData?.data?.username);
   const userSubscriptions = useSelector(
     (state) => state?.userData?.data?.subscriptions
