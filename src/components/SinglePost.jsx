@@ -57,6 +57,7 @@ export default function SinglePost({
   const incrementLikes = () => {
     if (!liked) {
       dispatch(addLike(postData.postId));
+      setLiked(true);
     }
     setLikesCount(likesCount + 1);
     setLiked(true);
@@ -101,6 +102,7 @@ export default function SinglePost({
       >
         {!(isProfilePage || isFollowingPage) && (
           <UserInfo userName={postData.authorUsername} />
+          //Commit
         )}
         <div className=" relative w-[100%] h-[100%] mt-2 mb-1">
           <img
