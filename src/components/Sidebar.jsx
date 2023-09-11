@@ -3,7 +3,7 @@ import UserInfo from "./UserInfo";
 
 function Sidebar() {
   const userData = useSelector((state) => state?.userData?.data);
-  const userName = useSelector((state) => state?.userData?.data?.username);
+
   const userSubscriptions = useSelector(
     (state) => state?.userData?.data?.subscriptions
   );

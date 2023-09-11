@@ -4,7 +4,7 @@ import Sidebar from "../components/Sidebar";
 export default function HomePage() {
   return (
     <div className="container mx-auto px-6 items-start justify-center flex-row">
-      <Sidebar />
+      <Sidebar isMyProfile={true} />
       <AllPosts />
     </div>
   );

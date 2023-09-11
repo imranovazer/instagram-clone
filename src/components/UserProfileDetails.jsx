@@ -3,13 +3,16 @@ import Loading from "./Loading";
 
 export default function UserProfileDetails({
   isFollowingPage,
-  firstName,
-  lastName,
+  isProfile,
+
   userName,
   postsLength,
   hover,
 }) {
   const userData = useSelector((state) => state.userData.data);
+  const selectedFollower = userData?.subscriptions?.filter(
+    (item) => item.username == userName
+  )[0];
 
   if (!userData) {
     return <Loading />;
@@ -26,7 +29,11 @@ export default function UserProfileDetails({
       <div className="infos-container">
         <div className="flex flex-row items-center">
           <div className="text-xl">
-            {isFollowingPage ? `${userName}` : `${userData.username}`}
+            {isFollowingPage
+              ? `${userName}`
+              : isProfile
+              ? `${userData?.username}`
+              : `${selectedFollower?.username}`}
           </div>
           <div className="m-4">
             <button className="m-1 bg-slate-100 rounded-lg	p-1 w-[100px]">
@@ -64,8 +71,10 @@ export default function UserProfileDetails({
         <div className="ml-1 mt-2 flex items-center">
           <span className="font-bold">
             {isFollowingPage
-              ? `${firstName} ${lastName}`
-              : `${userData.firstName} ${userData.lastName}`}
+              ? `${userName}`
+              : isProfile
+              ? `${userData?.username}`
+              : `${selectedFollower?.username}`}
           </span>
         </div>
       </div>
@@ -83,7 +92,11 @@ export default function UserProfileDetails({
         <div className="infos-container">
           <div className="flex flex-row items-center">
             <div className="m-1 text-2xl">
-              {isFollowingPage ? `${userName}` : `${userData.username}`}
+              {isFollowingPage
+                ? `${userName}`
+                : isProfile
+                ? `${userData?.username}`
+                : `${selectedFollower?.username}`}
             </div>
             <div className="m-4">
               <button className="m-1 bg-slate-100 rounded-lg	p-1 w-[100px]">
@@ -125,8 +138,10 @@ export default function UserProfileDetails({
           <div className="ml-2 mt-2 flex items-center">
             <span className="font-bold	">
               {isFollowingPage
-                ? `${firstName} ${lastName}`
-                : `${userData.firstName} ${userData.lastName}`}
+                ? `${userName}`
+                : isProfile
+                ? `${userData?.username}`
+                : `${selectedFollower?.username}`}
             </span>
           </div>
           {!isFollowingPage && (

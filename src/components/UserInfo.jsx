@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ShortUserInfo from "./ShortUserInfo";
 import { Link } from "react-router-dom";
 
-export default function UserInfo({ userName, isYourProfile }) {
+export default function UserInfo({ userName, isYourProfile, isMyProfile }) {
   const [isUsernameHovered, setIsUsernameHovered] = useState(false);
   const [randomImage, setRandomImage] = useState("");
 
@@ -43,7 +43,7 @@ export default function UserInfo({ userName, isYourProfile }) {
       <div className="relative w-[150px] h-[50px] flex items-center cursor-pointer">
         <div>
           <img
-            src={randomImage}
+            src={!isMyProfile ? randomImage : "../../src/assets/profile.jpg"}
             className={`rounded-full h-9 w-9 transition-all duration-300 ${
               isUsernameHovered
                 ? "opacity-70 scale-105 hover:opacity-100 hover:scale-100"
@@ -55,7 +55,7 @@ export default function UserInfo({ userName, isYourProfile }) {
         <div className="flex flex-col ml-2">
           <div className="text-base">{userName}</div>
         </div>
-        {isUsernameHovered && (
+        {isUsernameHovered && !isMyProfile && (
           <div className="opacity-0 scale-95 absolute top-0 left-0 z-10 transition-all duration-300 hover:opacity-100 hover:scale-100">
             <ShortUserInfo userName={userName} />
           </div>
