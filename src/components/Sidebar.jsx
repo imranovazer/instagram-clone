@@ -12,7 +12,7 @@ function Sidebar({ isMyProfile }) {
         isYourProfile={true}
         isMyProfile={isMyProfile}
       />
-      <div className="w-[300px] h-[300px]  mt-4 border-2 border-gray-200 rounded-md p-3">
+      <div className="w-[300px] mt-4 border-2 border-gray-200 rounded-md p-3">
         <div className="mb-2">Following</div>
         {userSubscriptions &&
           userSubscriptions.map((user, index) => (

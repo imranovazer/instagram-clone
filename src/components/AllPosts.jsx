@@ -7,7 +7,6 @@ import Loading from "./Loading";
 function AllPosts({ isProfilePage, isFollowingPage, followingUserPosts }) {
   const userData = useSelector((state) => state.userData.data);
   const dispatch = useDispatch();
-
   const userPostData = useSelector((state) => state.userData?.data?.posts);
   const homeFeed = useSelector((state) => state?.homeFeed?.data);
 
