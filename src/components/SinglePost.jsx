@@ -12,6 +12,7 @@ export default function SinglePost({
   isProfilePage,
   postData,
   isFollowingPage,
+  handleCommentClick,
 }) {
   if (!postData) {
     return <Loading />;
@@ -119,7 +120,10 @@ export default function SinglePost({
         </div>
 
         {isHover && (
-          <div className="w-[100%] h-[100%] rounded-md mt-2 mb-1 bg-black opacity-50 flex items-center justify-center gap-3 text-2xl text-white absolute top-0 left-0">
+          <div
+            onClick={handleCommentClick}
+            className="w-[100%] h-[100%] rounded-md mt-2 mb-1 bg-black opacity-50 flex items-center justify-center gap-3 text-2xl text-white absolute top-0 left-0"
+          >
             <div className="flex flex-row items-center justify-center gap-2 ">
               <IoMdHeart /> <span>{likesCount}</span>
             </div>
@@ -134,6 +138,7 @@ export default function SinglePost({
           <div className="flex flex-row items-center ">
             <div className="flex flex-col">
               <LikePost
+                handleCommentClick={handleCommentClick}
                 liked={liked}
                 setLiked={setLiked}
                 toggleLiked={toggleLiked}

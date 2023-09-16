@@ -3,16 +3,24 @@ import { LiaUserTagSolid } from "react-icons/lia";
 import { useDispatch, useSelector } from "react-redux";
 import SinglePost from "./SinglePost";
 import Loading from "./Loading";
+import { useState } from "react";
+import PostModal from "./PostModal/PostModal";
+import { toggleModal } from "../redux/reducers/postModalSlice";
 
 function AllPosts({ isProfilePage, isFollowingPage, followingUserPosts }) {
-  const userData = useSelector((state) => state.userData.data);
   const dispatch = useDispatch();
-  const userPostData = useSelector((state) => state.userData?.data?.posts);
+  const postModal = useSelector((state) => state.postModal.isOpen);
+  const userPostData = useSelector((state) => state.user?.user?.posts);
   const homeFeed = useSelector((state) => state?.homeFeed?.data);
+  const [postToView, setPostToView] = useState();
 
   if (!userPostData) {
     return <Loading />;
   }
+  const handleCommentClick = (post) => {
+    setPostToView(post);
+    dispatch(toggleModal());
+  };
   return (
     <div className="container mx-auto w-[70vw] items-center justify-between  pb-6">
       {isProfilePage && (
@@ -23,6 +31,7 @@ function AllPosts({ isProfilePage, isFollowingPage, followingUserPosts }) {
       )}
 
       <div className="flex flex-wrap flex-row gap-5 items-center justify-between mt-8">
+        {/* EDIT_----------------- */}
         {userPostData &&
           isProfilePage &&
           userPostData.map((post, index) => (
@@ -30,6 +39,7 @@ function AllPosts({ isProfilePage, isFollowingPage, followingUserPosts }) {
               key={index}
               isProfilePage={isProfilePage}
               postData={post}
+              handleCommentClick={() => handleCommentClick(post)}
             />
           ))}
 
@@ -38,6 +48,7 @@ function AllPosts({ isProfilePage, isFollowingPage, followingUserPosts }) {
           !isFollowingPage &&
           homeFeed?.map((post, index) => (
             <SinglePost
+              handleCommentClick={() => handleCommentClick(post)}
               key={index}
               isProfilePage={isProfilePage}
               postData={post}
@@ -48,12 +59,16 @@ function AllPosts({ isProfilePage, isFollowingPage, followingUserPosts }) {
           isFollowingPage &&
           followingUserPosts?.map((post, index) => (
             <SinglePost
+              handleCommentClick={() => handleCommentClick(post)}
               key={index}
               isFollowingPage={isFollowingPage}
               postData={post}
             />
           ))}
       </div>
+      {postModal && (
+        <PostModal postData={postToView} setPostData={setPostToView} />
+      )}
     </div>
   );
 }

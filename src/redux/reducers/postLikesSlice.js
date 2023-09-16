@@ -1,17 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { axiosPrivate } from "../../axios";
 
 export const addLike = createAsyncThunk("postLikes/addLike", async (postId) => {
-  const response = await fetch(
-    "https://instagram.brightly-shining.cloud/api/v1/post/like",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer ec8bd96c25fb46319cdf49779182333c",
-      },
-      body: JSON.stringify({ postId }),
-    }
-  );
+
+  const response = await axiosPrivate.post('/post/like', { postId })
 
   if (!response.ok) {
     throw new Error("Failed to add like");
@@ -23,16 +15,9 @@ export const addLike = createAsyncThunk("postLikes/addLike", async (postId) => {
 export const removeLike = createAsyncThunk(
   "postLikes/removeLike",
   async (postId) => {
-    const response = await fetch(
-      `https://instagram.brightly-shining.cloud/api/v1/post/like?postId=${postId}`,
-      {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer ec8bd96c25fb46319cdf49779182333c",
-        },
-      }
-    );
+    const response = await axiosPrivate.delete(`/post/like?postId=${postId}`);
+
+
 
     if (!response.ok) {
       throw new Error("Failed to remove like");
