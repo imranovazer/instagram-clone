@@ -1,5 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+import { axiosPrivate } from "../../axios";
+
+
+
+export const commentPost = createAsyncThunk(
+  'post/comment',
+  async ({ postId, text }) => {
+
+    const res = await axiosPrivate.post('/post/comment', {
+      postId, text
+    })
+
+    return [res.data.data, postId];
+
+  })
+
 
 const homeFeedSlice = createSlice({
   name: "homeFeed",
@@ -23,6 +39,34 @@ const homeFeedSlice = createSlice({
       state.error = action.payload;
     },
   },
+  extraReducers: {
+    [commentPost.pending]: (state) => {
+      state.loading = true
+    },
+    [commentPost.fulfilled]: (state, { payload }) => {
+
+      const [newComment, postId] = payload
+      const newPostData = state.data.map(item => {
+        if (item.postId === postId) {
+          return ({ ...item, comments: [...item.comments, newComment] })
+        }
+        else {
+          return item;
+        }
+      })
+      state.data = newPostData
+
+
+      state.loading = false
+    },
+    [commentPost.rejected]: (state) => {
+
+
+
+      state.loading = false
+    },
+
+  }
 });
 
 export const { setData, setLoading, setError } = homeFeedSlice.actions;
@@ -30,16 +74,10 @@ export const { setData, setLoading, setError } = homeFeedSlice.actions;
 export const fetchFeed = () => async (dispatch) => {
   try {
     dispatch(setLoading());
-    const response = await axios.get(
-      `https://instagram.brightly-shining.cloud/api/v1/user/feed`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer ec8bd96c25fb46319cdf49779182333c",
-        },
-      }
-    );
+    const response = await axiosPrivate.get('/user/feed');
 
+
+    console.log(response)
     const data = response.data.data;
 
     dispatch(setData(data));

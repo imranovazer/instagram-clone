@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { axiosPrivate } from "../../axios";
 
 const userDataSlice = createSlice({
   name: "user",
@@ -7,7 +8,7 @@ const userDataSlice = createSlice({
     data: null,
     loading: false,
     error: null,
-    
+
   },
   reducers: {
     setData: (state, action) => {
@@ -31,15 +32,7 @@ export const { setData, setLoading, setError } = userDataSlice.actions;
 export const fetchUsers = (username) => async (dispatch) => {
   try {
     dispatch(setLoading());
-    const response = await axios.get(
-      `https://instagram.brightly-shining.cloud/api/v1/user?username=${username}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer ec8bd96c25fb46319cdf49779182333c",
-        },
-      }
-    );
+    const response = await axiosPrivate.get(`/user?username=${username}`)
 
     const data = response.data.data;
 
