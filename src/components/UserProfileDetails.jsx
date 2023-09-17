@@ -8,7 +8,7 @@ export default function UserProfileDetails({
   postsLength,
   hover,
 }) {
-  const userData = useSelector((state) => state.userData.data);
+  const userData = useSelector((state) => state.user.user);
   const selectedFollower = userData?.subscriptions?.filter(
     (item) => item.username == userName
   )[0];
@@ -145,14 +145,16 @@ export default function UserProfileDetails({
           </div>
           {!isFollowingPage && (
             <div className="ml-2 mt-2 flex items-center">
-              <span>
-                Followed by{" "}
-                <span className="font-bold">
-                  {userData?.subscriptions[0]?.username},{" "}
-                  {userData?.subscriptions[1]?.username}
-                </span>{" "}
-                and {userData?.subscriptions?.length - 2} others
-              </span>
+              {userData.subscriptions.length > 0 && (
+                <span>
+                  Followed by{" "}
+                  <span className="font-bold">
+                    {userData?.subscriptions[0]?.username},{" "}
+                    {userData?.subscriptions[1]?.username}
+                  </span>{" "}
+                  and {userData?.subscriptions?.length - 2} others
+                </span>
+              )}
             </div>
           )}
         </div>

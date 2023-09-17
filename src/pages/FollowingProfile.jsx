@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 function FollowingProfile() {
-  const userData = useSelector((state) => state.userData.data);
+  const userData = useSelector((state) => state.user.user);
   const homeFeed = useSelector((state) => state?.homeFeed?.data);
   const { username } = useParams();
 

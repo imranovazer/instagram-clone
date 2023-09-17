@@ -12,7 +12,6 @@ const initialState = {
 export const getUserInfo = createAsyncThunk(
     'user/getUser',
     async (thunkAPI) => {
-
         const res = await axiosPrivate.get(`/user?username=${localStorage.getItem('username')}`);
         return res.data.data;
     })
@@ -22,6 +21,7 @@ export const userSlice = createSlice({
     reducers: {
 
         logoutUser: (state) => {
+            localStorage.clear();
             (state.isAuth = false),
                 (state.user = initialState.user),
                 (state.loading = false);

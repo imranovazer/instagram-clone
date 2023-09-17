@@ -18,6 +18,8 @@ axiosPrivate.interceptors.request.use(
             config.headers = {
                 ...config.headers,
                 Authorization: `Bearer ${accessToken}`,
+
+
             };
         }
         return config;
