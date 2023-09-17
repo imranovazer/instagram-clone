@@ -2,20 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./routes/ProtectedRoutes";
 import Layout from "./layouts/Layout";
 import { protectedRoutes, publicRoutes } from "./routes";
-import { useSelector, useDispatch } from "react-redux";
-
-import { useEffect } from "react";
-import { fetchFeed } from "./redux/reducers/homeFeedSlice";
 
 function App() {
-  const homeFeed = useSelector((state) => state.homeFeed.data);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!homeFeed) {
-      dispatch(fetchFeed());
-    }
-  }, [homeFeed, dispatch]);
   return (
     <BrowserRouter>
       <Routes>
