@@ -8,13 +8,22 @@ import UserInfo from "../UserInfo";
 
 import { AlertContex } from "../../layouts/AlertLayout";
 import { commentPost } from "../../redux/reducers/homeFeedSlice";
+import { deletePost } from "../../redux/reducers/userSlice";
 
 function PostModal({ postData, setPostData }) {
-  console.log(postData);
   const { displayAlert } = useContext(AlertContex);
   const [text, setText] = useState("");
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
+  const handlePostDelete = () => {
+    try {
+      dispatch(deletePost(postData.postId));
+      dispatch(toggleModal());
+      displayAlert(true, "Post deleted");
+    } catch (error) {
+      displayAlert(false, "Unable to delete post");
+    }
+  };
   const handleComment = async () => {
     try {
       dispatch(commentPost({ postId: postData.postId, text }));
@@ -55,7 +64,12 @@ function PostModal({ postData, setPostData }) {
 
         <div className="w-2/5 flex flex-col justify-between ">
           <div className="w-full h-full p-3">
-            <UserInfo userName={postData.authorUsername} />
+            <div className="flex items-center justify-between w-full">
+              <UserInfo userName={postData.authorUsername} />
+              {postData.authorUsername === user.username && (
+                <Button onClick={handlePostDelete}>Delete</Button>
+              )}
+            </div>
             <hr />
             <ul className="overflow-y-auto overflow-x-hidden w-full h-[500px] flex flex-col p-2 gap-2">
               {postData.caption && (
