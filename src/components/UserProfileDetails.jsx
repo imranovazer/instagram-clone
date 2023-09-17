@@ -4,7 +4,6 @@ import Loading from "./Loading";
 export default function UserProfileDetails({
   isFollowingPage,
   isProfile,
-
   userName,
   postsLength,
   hover,
