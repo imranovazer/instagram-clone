@@ -15,8 +15,6 @@ export const commentPost = createAsyncThunk(
     return [res.data.data, postId];
 
   })
-
-
 const homeFeedSlice = createSlice({
   name: "homeFeed",
   initialState: {
