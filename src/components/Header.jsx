@@ -6,10 +6,15 @@ import { Dropdown } from "antd";
 import { BiLogOut, BiUser } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../redux/reducers/userSlice";
+import { useState } from "react";
+import CreatePostModal from "./CreatePostModal";
 
 function Header() {
+  const [modal, setModal] = useState();
+
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const items = [
     {
@@ -49,7 +54,10 @@ function Header() {
         <Link to={"/"}>
           <GrHomeRounded className="text-2xl " />
         </Link>
-        <CgMathPlus className="text-3xl" />
+        <CgMathPlus
+          className="text-3xl cursor-pointer"
+          onClick={() => setModal((prev) => !prev)}
+        />
         <Dropdown menu={{ items }}>
           <img
             className="w-8 h-8 rounded-full"
@@ -58,6 +66,7 @@ function Header() {
           />
         </Dropdown>
       </div>
+      {modal && <CreatePostModal open={modal} setOpen={setModal} />}
     </div>
   );
 }

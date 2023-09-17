@@ -9,6 +9,23 @@ const initialState = {
     user: null
 };
 
+export const postPost = createAsyncThunk(
+    'post/postPost',
+    async (data) => {
+        const res = await axiosPrivate.post(`/post`, data);
+        return res.data.data;
+    })
+export const deletePost = createAsyncThunk(
+    'post/deletePost',
+    async (id) => {
+
+
+        const res = await axiosPrivate.delete(`/post?postId=${id}`);
+        return [res.data.data, id];
+
+
+
+    })
 export const getUserInfo = createAsyncThunk(
     'user/getUser',
     async (thunkAPI) => {
@@ -37,11 +54,24 @@ export const userSlice = createSlice({
             state.isAuth = true
             state.loading = false
         },
+
         [getUserInfo.rejected]: (state) => {
             localStorage.clear();
             state.isAuth = false
             state.user = null
             state.loading = false
+        },
+        [postPost.fulfilled]: (state, { payload }) => {
+            state.user.posts = [...state.user.posts, payload]
+
+        },
+        [deletePost.fulfilled]: (state, { payload }) => {
+            const [response, deletedPostId] = payload
+            state.user.posts = state.user.posts.filter(item => item.postId !== deletedPostId);
+
+        },
+        [deletePost.rejected]: (state) => {
+            throw Error("Unable delete post")
         },
 
     }
