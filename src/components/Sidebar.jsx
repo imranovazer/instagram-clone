@@ -6,7 +6,7 @@ function Sidebar({ isMyProfile }) {
     (state) => state?.user?.user?.subscriptions
   );
   return (
-    <div className="fixed right-[280px] mt-1 p-2">
+    <div className="fixed right-[280px] mt-1 p-2 hidden xl:block">
       <UserInfo
         userName={userName}
         isYourProfile={true}
