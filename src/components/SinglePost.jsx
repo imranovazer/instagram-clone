@@ -150,7 +150,10 @@ export default function SinglePost({
 
         {!(isProfilePage || isFollowingPage) && <UserPostText /> && (
           <div className="flex flex-col ">
-            <span className="text-slate-500	text-sm	mt-1">
+            <span
+              className="text-slate-500	text-sm	mt-1 cursor-pointer"
+              onClick={handleCommentClick}
+            >
               View all: {postData?.comments?.length} comments
             </span>
             <span className="mt-1">{postData?.comments[0]?.text}</span>
