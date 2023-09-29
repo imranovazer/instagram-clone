@@ -4,30 +4,35 @@ import UserPostText from "./UserPostText";
 import LikePost from "./PostButtons";
 import { IoMdHeart } from "react-icons/io";
 import { LiaCommentAlt } from "react-icons/lia";
-import { addLike, removeLike } from "../redux/reducers/postLikesSlice";
-import { useDispatch } from "react-redux";
+
 import Loading from "./Loading";
+import { useSelector } from "react-redux";
 
 export default function SinglePost({
   isProfilePage,
   postData,
   isFollowingPage,
   handleCommentClick,
+  handleLikePost,
+  handleDislikePost,
 }) {
+  const username = useSelector((state) => state?.user?.user?.username);
   if (!postData) {
     return <Loading />;
   }
 
-  const dispatch = useDispatch();
-
-  const isLikedByAlexBird = postData.likes.some(
-    (like) => like.authorUsername === "alexbird"
-  );
-
   const [isHover, setIsHover] = useState(false);
-  const [likesCount, setLikesCount] = useState(postData?.likes?.length);
+  const [likesCount, setLikesCount] = useState(0);
   const [isDoubleClick, setIsDoubleClick] = useState(false);
-  const [liked, setLiked] = useState(isLikedByAlexBird);
+  const [liked, setLiked] = useState();
+
+  useEffect(() => {
+    setLikesCount(postData?.likes?.length);
+    const isLikedByMe = postData.likes.some(
+      (like) => like.authorUsername === username
+    );
+    setLiked(isLikedByMe);
+  }, [postData]);
 
   useEffect(() => {
     let timer;
@@ -55,38 +60,19 @@ export default function SinglePost({
     }
   };
 
-  const incrementLikes = () => {
-    if (!liked) {
-      dispatch(addLike(postData.postId));
-      setLiked(true);
-    }
-    setLikesCount(likesCount + 1);
-    setLiked(true);
-  };
-
-  const decrementLikes = () => {
-    if (liked) {
-      dispatch(removeLike(postData.postId));
-      setLiked(false);
-    }
-
-    setLikesCount(likesCount - 1);
-  };
-
   const handleDoubleClick = () => {
     if (!liked) {
       setLiked(true);
       setIsDoubleClick(true);
       setLikesCount(likesCount + 1);
-      dispatch(addLike(postData.postId));
     }
   };
 
   const toggleLiked = () => {
     if (liked) {
-      decrementLikes();
+      handleDislikePost(postData.postId);
     } else {
-      incrementLikes();
+      handleLikePost(postData.postId);
     }
   };
 

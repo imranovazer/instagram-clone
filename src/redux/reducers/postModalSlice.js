@@ -7,7 +7,6 @@ const initialState = {
     isOpen: false
 };
 
-
 export const postModalSlice = createSlice({
     name: "postModal",
     initialState,

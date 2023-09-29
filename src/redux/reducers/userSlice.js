@@ -9,6 +9,18 @@ const initialState = {
     user: null
 };
 
+export const followUser = createAsyncThunk('user/Follow', async (username) => {
+    const res = await axiosPrivate.post('/user/subscription', {
+        username
+    })
+    return [res.data.data, username];
+})
+export const unfollowUser = createAsyncThunk('user/UnFollow', async (username) => {
+    const res = await axiosPrivate.delete(`/user/subscription?username=${username}`)
+    return username;
+})
+
+
 export const postPost = createAsyncThunk(
     'post/postPost',
     async (data) => {
@@ -72,6 +84,20 @@ export const userSlice = createSlice({
         },
         [deletePost.rejected]: (state) => {
             throw Error("Unable delete post")
+        },
+        [followUser.fulfilled]: (state, { payload }) => {
+            const [res, user] = payload;
+            state.user.subscriptions = [...state.user.subscriptions, {
+                username: user
+            }]
+
+
+
+        },
+        [unfollowUser.fulfilled]: (state, { payload }) => {
+
+            state.user.subscriptions = state.user.subscriptions.filter(item => item.username !== payload);
+
         },
 
     }
