@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useDeferredValue, useEffect, useState } from "react";
 import ShortUserInfo from "./ShortUserInfo";
 import { Link } from "react-router-dom";
+import getRandomImage from "../data/userImages";
 
 export default function UserInfo({ userName, isYourProfile, isMyProfile }) {
   const [isUsernameHovered, setIsUsernameHovered] = useState(false);
-  const [randomImage, setRandomImage] = useState("");
+  const [randomImage, setRandomImage] = useState(null);
 
   const handleUsernameMouseEnter = () => {
     setIsUsernameHovered(true);
@@ -15,28 +16,32 @@ export default function UserInfo({ userName, isYourProfile, isMyProfile }) {
   };
 
   useEffect(() => {
-    async function getRandomHumanProfile() {
-      try {
-        const response = await fetch("https://randomuser.me/api/");
-        if (response.ok) {
-          const data = await response.json();
-          const randomUser = data.results[0];
-          setRandomImage(randomUser.picture.large);
-        } else {
-          throw new Error("Failed to fetch a random user profile");
-        }
-      } catch (error) {
-        console.error(error);
-        setRandomImage("default-image-url.jpg");
-      }
-    }
-
-    getRandomHumanProfile();
+    setRandomImage(getRandomImage());
   }, []);
+  // useEffect(() => {
+  //   async function getRandomHumanProfile() {
+  //     try {
+  //       const response = getRandomImage();
+  //       // const response = await fetch("https://randomuser.me/api/");
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         const randomUser = data.results[0];
+  //         setRandomImage(response);
+  //       } else {
+  //         throw new Error("Failed to fetch a random user profile");
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //       setRandomImage("default-image-url.jpg");
+  //     }
+  //   }
+
+  //   getRandomHumanProfile();
+  // }, []);
 
   return (
     <Link
-      to={isYourProfile ? "/profile" : `/following/${userName}`}
+      to={isYourProfile ? "/profile" : `/user/${userName}`}
       onMouseEnter={handleUsernameMouseEnter}
       onMouseLeave={handleUsernameMouseLeave}
     >

@@ -1,5 +1,8 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loading from "./Loading";
+import { followUser, unfollowUser } from "../redux/reducers/userSlice";
+import { useContext } from "react";
+import { AlertContex } from "../layouts/AlertLayout";
 
 export default function UserProfileDetails({
   isFollowingPage,
@@ -8,15 +11,31 @@ export default function UserProfileDetails({
   postsLength,
   hover,
 }) {
-  const userData = useSelector((state) => state.user.user);
-  const selectedFollower = userData?.subscriptions?.filter(
+  const myData = useSelector((state) => state.user.user);
+  const { displayAlert } = useContext(AlertContex);
+  const selectedFollower = myData?.subscriptions?.filter(
     (item) => item.username == userName
   )[0];
-
-  if (!userData) {
+  const dispatch = useDispatch();
+  if (!myData) {
     return <Loading />;
   }
-
+  const handleUserFollow = async () => {
+    try {
+      dispatch(followUser(userName));
+      displayAlert(true, "User subscribed!");
+    } catch (error) {
+      displayAlert(false, "Unable to follow user!");
+    }
+  };
+  const handleUserUnFollow = async () => {
+    try {
+      dispatch(unfollowUser(userName));
+      displayAlert(true, "User unsubscribed!");
+    } catch (error) {
+      displayAlert(false, "Unable to unsubscribe user!");
+    }
+  };
   return hover ? (
     <div className="p-3 flex flex-row items-center">
       <div className="mr-5">
@@ -31,28 +50,32 @@ export default function UserProfileDetails({
             {isFollowingPage
               ? `${userName}`
               : isProfile
-              ? `${userData?.username}`
+              ? `${myData?.username}`
               : `${selectedFollower?.username}`}
           </div>
           <div className="m-4">
-            <button className="m-1 bg-slate-100 rounded-lg	p-1 w-[100px]">
-              Follow
-            </button>
+            {myData.subscriptions.some((item) => item.username === userName) ? (
+              <button className="m-1 bg-slate-100 rounded-lg	p-1 w-[100px]">
+                Unfollow
+              </button>
+            ) : (
+              <button className="m-1 bg-slate-100 rounded-lg	p-1 w-[100px]">
+                Follow
+              </button>
+            )}
           </div>
         </div>
         <div className="flex flex-row items-center ">
           <div className="m-2">
             <span className="font-bold mr-1">
-              {isFollowingPage
-                ? `${postsLength}`
-                : `${userData?.posts?.length}`}
+              {isFollowingPage ? `${postsLength}` : `${myData?.posts?.length}`}
             </span>
             <span>Posts</span>
           </div>
           {!isFollowingPage && (
             <div className="m-2">
               <span className="font-bold mr-1">
-                {userData?.subscribers?.length}
+                {myData?.subscribers?.length}
               </span>
               <span>Followers</span>
             </div>
@@ -61,7 +84,7 @@ export default function UserProfileDetails({
             <div className="m-2">
               <span className="font-bold mr-1">
                 {" "}
-                {userData?.subscriptions?.length}
+                {myData?.subscriptions?.length}
               </span>
               <span>Following</span>
             </div>
@@ -72,7 +95,7 @@ export default function UserProfileDetails({
             {isFollowingPage
               ? `${userName}`
               : isProfile
-              ? `${userData?.username}`
+              ? `${myData?.username}`
               : `${selectedFollower?.username}`}
           </span>
         </div>
@@ -94,13 +117,27 @@ export default function UserProfileDetails({
               {isFollowingPage
                 ? `${userName}`
                 : isProfile
-                ? `${userData?.username}`
+                ? `${myData?.username}`
                 : `${selectedFollower?.username}`}
             </div>
             <div className="m-4">
-              <button className="m-1 bg-slate-100 rounded-lg	p-1 w-[100px]">
-                Follow
-              </button>
+              {myData.subscriptions.some(
+                (item) => item.username === userName
+              ) ? (
+                <button
+                  onClick={handleUserUnFollow}
+                  className="m-1 bg-slate-100 rounded-lg	p-1 w-[100px]"
+                >
+                  Unfollow
+                </button>
+              ) : (
+                <button
+                  onClick={handleUserFollow}
+                  className="m-1 bg-slate-100 rounded-lg	p-1 w-[100px]"
+                >
+                  Follow
+                </button>
+              )}
               <button className="m-1 bg-slate-100 rounded-lg	p-1 w-[50px]">
                 *
               </button>
@@ -112,14 +149,14 @@ export default function UserProfileDetails({
               <span className="font-bold mr-1">
                 {isFollowingPage
                   ? `${postsLength}`
-                  : `${userData?.posts?.length}`}
+                  : `${myData?.posts?.length}`}
               </span>
               <span>Posts</span>
             </div>
             {!isFollowingPage && (
               <div className="m-2">
                 <span className="font-bold mr-1">
-                  {userData?.subscribers?.length}
+                  {myData?.subscribers?.length}
                 </span>
                 <span>Followers</span>
               </div>
@@ -128,7 +165,7 @@ export default function UserProfileDetails({
               <div className="m-2">
                 <span className="font-bold mr-1">
                   {" "}
-                  {userData?.subscriptions?.length}
+                  {myData?.subscriptions?.length}
                 </span>
                 <span>Following</span>
               </div>
@@ -139,20 +176,20 @@ export default function UserProfileDetails({
               {isFollowingPage
                 ? `${userName}`
                 : isProfile
-                ? `${userData?.username}`
+                ? `${myData?.username}`
                 : `${selectedFollower?.username}`}
             </span>
           </div>
           {!isFollowingPage && (
             <div className="ml-2 mt-2 flex items-center">
-              {userData.subscriptions.length > 0 && (
+              {myData.subscriptions.length > 0 && (
                 <span>
                   Followed by{" "}
                   <span className="font-bold">
-                    {userData?.subscriptions[0]?.username},{" "}
-                    {userData?.subscriptions[1]?.username}
+                    {myData?.subscriptions[0]?.username},{" "}
+                    {myData?.subscriptions[1]?.username}
                   </span>{" "}
-                  and {userData?.subscriptions?.length - 2} others
+                  and {myData?.subscriptions?.length - 2} others
                 </span>
               )}
             </div>

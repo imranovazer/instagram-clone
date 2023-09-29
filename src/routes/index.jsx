@@ -29,7 +29,7 @@ export const protectedRoutes = [
   },
   {
     key: 3,
-    path: "/following/:username",
+    path: "/user/:username",
     element: <FollowingProfile />,
   },
 ];

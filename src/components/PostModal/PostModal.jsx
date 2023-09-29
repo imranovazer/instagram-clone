@@ -5,34 +5,53 @@ import { RxCross2 } from "react-icons/rx";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleModal } from "../../redux/reducers/postModalSlice";
 import UserInfo from "../UserInfo";
-
+import { AiOutlineDelete } from "react-icons/ai";
 import { AlertContex } from "../../layouts/AlertLayout";
-import { commentPost } from "../../redux/reducers/homeFeedSlice";
-import { deletePost } from "../../redux/reducers/userSlice";
 
-function PostModal({ postData, setPostData }) {
+function PostModal({
+  postData,
+  setPostData,
+  handleCommentPost,
+  handleCommentDelete,
+}) {
   const { displayAlert } = useContext(AlertContex);
   const [text, setText] = useState("");
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const handlePostDelete = () => {
     try {
-      dispatch(deletePost(postData.postId));
       dispatch(toggleModal());
       displayAlert(true, "Post deleted");
     } catch (error) {
       displayAlert(false, "Unable to delete post");
     }
   };
+
+  const deleteComment = async (id) => {
+    try {
+      handleCommentDelete(postData.postId, id);
+      setPostData((prevState) => {
+        const newComments = prevState.comments.filter(
+          (item) => item.commentId !== id
+        );
+        return { ...prevState, comments: newComments };
+      });
+    } catch (error) {
+      displayAlert(false, "Unable to delete comment");
+    }
+  };
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    return () => (document.body.style.overflow = "unset");
+  }, []);
   const handleComment = async () => {
     try {
-      dispatch(commentPost({ postId: postData.postId, text }));
+      handleCommentPost(postData.postId, text);
       setPostData((prev) => ({
         ...prev,
         comments: [...prev.comments, { authorUsername: user.username, text }],
       }));
       // const res = await postModalApi.addComment(postData.postId, text);
-      displayAlert(true, "Comment published");
 
       setText("");
     } catch (error) {
@@ -45,7 +64,7 @@ function PostModal({ postData, setPostData }) {
   return (
     <div
       onClick={closeMod}
-      className="fixed 	 p-5 top-0 left-0 w-full min-h-screen bg-black/30 flex  justify-center items-center "
+      className="fixed  z-50	 p-5 top-0 left-0 w-full min-h-screen bg-black/30 flex  justify-center items-center "
     >
       <button
         className="absolute top-[10px] right-[10px] text-white text-[30px]"
@@ -82,7 +101,18 @@ function PostModal({ postData, setPostData }) {
               {postData.comments &&
                 postData.comments.map((item, index) => (
                   <li key={index}>
-                    <UserInfo userName={item.authorUsername} />
+                    <div className="flex justify-between items-center">
+                      <UserInfo userName={item.authorUsername} />
+
+                      {item.authorUsername === user.username && (
+                        <div
+                          className="cursor-pointer "
+                          onClick={() => deleteComment(item.commentId)}
+                        >
+                          <AiOutlineDelete />
+                        </div>
+                      )}
+                    </div>
 
                     {item.text}
                   </li>
