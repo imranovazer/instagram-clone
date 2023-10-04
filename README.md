@@ -34,6 +34,7 @@ Currently, two official plugins are available:
 - Modal window on mouse hover
 
 ### Mirjabbar Badalov
--
--
--
+- User Page and Profile implementation
+- User Page Post Hover feature
+- Displaying Following users' posts in Home Page and Redux configuration
+- Sidebar Functionality implementation
