@@ -28,7 +28,10 @@ Currently, two official plugins are available:
   
 
 ### Ali Ramazanov
-- 
+- Like functionality and Redux Implementation
+- Home Feed and Single Posts on Home feed, their UI and data fetching
+- User profile description
+- Modal window on mouse hover
 
 ### Mirjabbar Badalov
 -
